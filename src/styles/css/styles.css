@@ -407,6 +407,9 @@ ul {
   border: 1px solid;
   border-radius: 50%;
   height: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .quantity button img {
   vertical-align: middle;
