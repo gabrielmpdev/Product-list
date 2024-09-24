@@ -10,6 +10,84 @@ body {
   max-width: calc(100% - 100px);  
   margin: 0 auto;  
 }  
+.popup {  
+  position: fixed;  
+  top: 0;  
+  left: 0;  
+  right: 0;  
+  bottom: 0;  
+  background-color: rgba(0, 0, 0, 0.5);  
+  display: flex;  
+  justify-content: center;  
+  align-items: center;  
+  z-index: 1000;  
+}  
+
+.popup-content {  
+  background-color: white;  
+  border-radius: 8px;  
+  padding: 20px;  
+  max-width: 520px;
+  width: 100%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);  
+  text-align: center;  
+}  
+
+.popup-header {  
+  display: flex;  
+  align-items: center;  
+  justify-content: center;  
+  margin-bottom: 10px;  
+}  
+
+.check-icon {  
+  color: green;  
+  font-size: 24px;  
+  margin-right: 10px;  
+}  
+
+.popup-subtitle {  
+  font-size: 14px;  
+  color: gray;  
+  margin-bottom: 15px;  
+}  
+
+.order-summary {  
+  list-style: none;  
+  padding: 0;  
+  margin: 10px 0;  
+}  
+
+.order-summary li {  
+  margin: 5px 0;  
+}  
+
+.total {  
+  font-weight: bold;  
+  margin: 10px 0;  
+}  
+
+.start-order-button {  
+  background-color: #FF6F61; /* Cor laranja */  
+  color: white;  
+  border: none;  
+  border-radius: 5px;  
+  padding: 10px 15px;  
+  cursor: pointer;  
+  margin-top: 10px;  
+}  
+
+.start-order-button:hover {  
+  background-color: #FF4F3D; /* Cor laranja mais escura */  
+}  
+
+.close-button {  
+  background-color: transparent;  
+  color: gray;  
+  border: none;  
+  cursor: pointer;  
+  margin-top: 5px;  
+}
 
 .titleList {  
   font-size: 2rem;  
@@ -17,10 +95,23 @@ body {
   margin-bottom: 20px;  
   padding-left: 15px;  
 }  
-
+.carbon-neutral{
+  opacity: 1;
+  background-color: #fcf9f7;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 3rem;
+  margin-top: 1.25rem;
+  margin-bottom: 1.25rem;
+  gap: 5px;
+  
+  span{
+    font-weight: 700;
+  }
+}
 .container {  
   display: flex;  
-  flex-wrap: wrap;   
   justify-content: space-between;   
 
   .minicartProducts {  
@@ -70,6 +161,13 @@ ul {
   text-align: center;  
   transition: transform 0.2s;
   position: relative;  
+
+  .image-button-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
 }  
 
 .box-product:hover {  
@@ -86,7 +184,6 @@ ul {
   display: flex;  
   flex-direction: column;  
   align-items: flex-start;  
-  margin-top: 2rem;  
 
   .categoryName {  
     font-size: 12px;  
@@ -94,8 +191,10 @@ ul {
     font-weight: 600;  
   }  
   
+ 
   .price {  
-    color: #bf866f;            
+    color: #c73a0f;
+    font-weight: bold;            
   }  
   
   > h2 {  
@@ -111,10 +210,6 @@ ul {
     padding: 10px 15px;
     cursor: pointer;
     transition: background-color 0.3s;
-    position: absolute;
-    top: 58%;
-    right: 0;
-    left: 24%;
     width: 170px;
     height: 40px;
     border: 1px solid black;
@@ -122,6 +217,8 @@ ul {
     display: flex;
     align-items: center;
     justify-content: center;
+    position: relative;
+    top: -19px;
 
   img {  
     margin-right: 5px;  
@@ -131,6 +228,12 @@ ul {
 .productsCart{
     display: flex;
     flex-direction: column;
+    .itemTitleCart{
+      font-size: 14px;
+      line-height: 1.25rem;
+      font-weight: 700;
+      margin: 0px;
+    }
 .quantityCartItem{
     color: #c73a0f;
     font-weight: 500;
@@ -168,20 +271,20 @@ ul {
 }
 
 .quantity {  
-    display: flex;
-    align-items: center;
-    margin: 10px 0;
-    position: absolute;
-    top: 56%;
-    width: 146px;
-    right: 0;
-    left: 20%;
-    justify-content: space-between;
-    background: #c83c0e;
-    border-radius: 25px;
-    padding: 0px 14px;
-    height: 40px;
-    flex-direction: row-reverse;
+  display: flex;
+  align-items: center;
+  margin: 10px 0;
+  width: 142px;
+  height: 40px;
+  justify-content: space-between;
+  background: #c83c0e;
+  border-radius: 25px;
+  padding: 0px 14px;
+
+  flex-direction: row-reverse;
+  position: relative;
+  top: -21px;
+  margin: 0px;
 
   span {  
     color: white;  
@@ -205,9 +308,10 @@ ul {
 }  
 
 .minicartProducts h2 {  
-  font-size: 1.5rem;  
-  color: #333;  
-  margin-bottom: 10px;  
+  font-size: 1.875rem;
+  color: #c73a0f;
+  margin: 0px;  
+  font-weight: 700;
 }  
 
 .minicartProducts ul {  
@@ -224,12 +328,6 @@ ul {
   font-size: 1.2rem;  
   font-weight: bold;  
   margin-top: 10px;  
-}  
-
-.carbon-neutral {  
-  font-size: 0.9rem;  
-  color: #777;  
-  margin: 5px 0;  
 }  
 
 
@@ -264,6 +362,12 @@ ul {
     .listProducts{
         grid-template-columns: repeat(2, 1fr);
     }
+  
+}
+@media(max-width:1050px){
+  .container{
+    flex-wrap: wrap;
+  }
 }
 @media (max-width:680px){
     .container{
@@ -272,10 +376,7 @@ ul {
     body{
         padding: unset
     }
-    .add-to-cart{
-        top: 47%;
-        left: 20%;
-    } 
+
     .listProducts{
         grid-template-columns: repeat(1, 1fr);
         margin: 0 auto;
@@ -300,4 +401,5 @@ ul {
         min-width: unset;
         max-width: unset;
     }
+
 }

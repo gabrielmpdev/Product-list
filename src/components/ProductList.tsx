@@ -5,7 +5,8 @@ import styles from '../styles/scss/styles.scss';
 
 const ProductList: React.FC = () => {  
   const [cart, setCart] = useState<{ name: string; quantity: number; price: number }[]>([]);  
-  const [addedProducts, setAddedProducts] = useState<{ [key: string]: number }>({});  
+  const [addedProducts, setAddedProducts] = useState<{ [key: string]: number }>({});
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
 
   const getImageUrl = (product: Product) => {  
     const width = window.innerWidth;  
@@ -79,10 +80,20 @@ const ProductList: React.FC = () => {
   };  
 
   const calculateTotal = () => {  
-    return cart.reduce((total, item) => total + item.price * item.quantity, 0).toFixed(2);  
+    return cart.reduce((total, item) => total + item.price * item.quantity, 0);  
   };  
 
-  const emptyCartImage = './assets/images/illustration-empty-cart.svg'; // Adicione o caminho da sua imagem aqui  
+  const emptyCartImage = './assets/images/illustration-empty-cart.svg'; 
+
+  const confirmOrder = () => {
+    setIsPopupOpen(true);
+  };
+
+  const startNewOrder = () => {
+    setCart([]);
+    setAddedProducts({});
+    setIsPopupOpen(false);
+  };
 
   return (  
     <div className="mainContainer">  
@@ -126,29 +137,51 @@ const ProductList: React.FC = () => {
               <p>Your added items will appear here</p>  
             </div>  
           ) : (  
-            <>
+            <>  
             <ul>  
               {cart.map(item => (   
                 <li key={item.name} className="productsCart">  
-                  {item.name}  
+                  <h3 className='itemTitleCart'>{item.name} </h3>
                   <span>   
-                   <p className='quantityCartItem'> {item.quantity}x </p>  <p className='priceCartItem'>  @${item.price.toFixed(2)}</p>  <p className='totalPriceCartItem'> ${(item.price * item.quantity).toFixed(2)}                   
-                   </p> 
+                   <p className='quantityCartItem'> {item.quantity}x </p>  
+                   <p className='priceCartItem'>  @${item.price.toFixed(2)}</p>  
+                   <p className='totalPriceCartItem'> ${(item.price * item.quantity).toFixed(2)} </p> 
                   </span>   
-                  <button  className="removeProduct" onClick={() => removeFromCart(item.name)}><img src="./assets/images/icon-remove-item.svg"/></button>  
-
+                  <button className="removeProduct" onClick={() => removeFromCart(item.name)}>
+                    <img src="./assets/images/icon-remove-item.svg"/>
+                  </button>  
                 </li>  
               ))}  
             </ul>  
-            <p className="total">Order Total: <span>${calculateTotal()}</span></p>  
-            <p className="carbon-neutral">This is a carbon-neutral delivery</p>  
-            <button className="confirm-order">Confirm Order</button>  
-
-            </>
+            <p className="total">Order Total <span>${calculateTotal().toFixed(2)}</span></p>  
+            <p className="carbon-neutral">
+              <img src="./assets/images/icon-carbon-neutral.svg"/>This is a <span>carbon-neutral</span> delivery
+            </p>  
+            <button className="confirm-order" onClick={confirmOrder}>Confirm Order</button>  
+            </>  
           )}  
-          
         </div>  
       </div>  
+      {isPopupOpen && (  
+        <div className="popup">  
+          <div className="popup-content">  
+            <div className="popup-header">  
+              <span className="check-icon">✔️</span>  
+              <h2>Order Summary</h2>  
+            </div>  
+            <p className="popup-subtitle">We hope you enjoy your food!</p>  
+            <ul className="order-summary">  
+              {cart.map(item => (  
+                <li key={item.name}>  
+                  {item.name} - {item.quantity} x ${item.price.toFixed(2)}  
+                </li>  
+              ))}  
+            </ul>  
+            <p className="total">Total: ${calculateTotal().toFixed(2)}</p>  
+            <button className="start-order-button" onClick={startNewOrder}>Start New Order</button>  
+          </div>  
+        </div>  
+      )}
     </div>  
   );  
 };  
