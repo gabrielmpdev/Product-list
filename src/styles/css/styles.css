@@ -20,6 +20,7 @@ body {
   color: hsl(14, 86%, 42%);
   margin: 0px;
   font-weight: 700;
+  margin-bottom: 10px;
 }
 .filters .filters-content {
   display: flex;
@@ -480,7 +481,17 @@ ul {
     flex-wrap: wrap;
   }
 }
-@media (max-width: 680px) {
+@media (max-width: 768px) {
+  .filters {
+    max-width: 360px;
+    padding: 10px;
+    justify-content: flex-start;
+    align-items: flex-start;
+    display: flex;
+  }
+  .filters .filters-content {
+    margin-top: 10px;
+  }
   .container {
     padding: 10px;
   }
@@ -508,6 +519,16 @@ ul {
   .container .minicartProducts {
     min-width: unset;
     max-width: unset;
+  }
+}
+@media (max-width: 375px) {
+  .order-item span {
+    min-width: 150px;
+  }
+}
+@media (max-width: 568px) {
+  .order-item span {
+    min-width: 68%;
   }
 }
 

@@ -26,11 +26,13 @@ body {
   justify-content: end;
   flex-direction: column;
   align-items: end;
+
   .filterTitle {
     font-size: 16px;
     color: hsl(14, 86%, 42%);
     margin: 0px;
     font-weight: 700;
+    margin-bottom: 10px;
   }
   .filters-content {
     display: flex;
@@ -208,7 +210,7 @@ body {
 }
 
 .start-order-button:hover {
-  background-color: $red-dark; // Usando a nova cor escura
+  background-color: $red-dark; 
 }
 
 .titleList {
@@ -517,7 +519,18 @@ ul {
   }
 }
 
-@media (max-width: 680px) {
+@media (max-width: 768px) {
+  .filters{
+    max-width: 360px;
+    padding: 10px;
+    justify-content: flex-start;
+    align-items: flex-start;
+    display: flex;
+   .filters-content{
+    margin-top: 10px;
+   }
+  }
+  
   .container {
     padding: 10px;
   }
@@ -551,4 +564,16 @@ ul {
     min-width: unset;
     max-width: unset;
   }
+  
 }
+@media(max-width:375px){
+  .order-item span{
+        min-width: 150px;
+  }
+}
+@media(max-width:568px){
+  .order-item span{
+    min-width: 68%;
+  }
+}
+
