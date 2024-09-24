@@ -5,12 +5,13 @@ import styles from '../styles/scss/styles.scss';
 
 const ProductList: React.FC = () => {  
   const [cart, setCart] = useState<{ name: string; quantity: number; price: number }[]>([]);  
-  const [addedProducts, setAddedProducts] = useState<{ [key: string]: number }>({});
+  const [addedProducts, setAddedProducts] = useState<{ [key: string]: number }>({});  
   const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState('All');
+  const [sortOrder, setSortOrder] = useState('asc');
 
   const getImageUrl = (product: Product) => {  
     const width = window.innerWidth;  
-
     if (width >= 1024) {  
       return product.image.desktop;  
     } else if (width >= 768) {  
@@ -20,9 +21,10 @@ const ProductList: React.FC = () => {
     }  
   };  
 
+  const findProduct = (name: string) => products.find(product => product.name === name);
+
   const addToCart = (productName: string, productPrice: number) => {  
     setAddedProducts(prev => ({ ...prev, [productName]: (prev[productName] || 0) + 1 }));  
-
     setCart(prevCart => {  
       const existingProduct = prevCart.find(item => item.name === productName);  
       if (existingProduct) {  
@@ -68,7 +70,6 @@ const ProductList: React.FC = () => {
         return prevCart.filter(item => item.name !== productName);  
       }  
     });  
-
     setAddedProducts(prev => {  
       const newCount = (prev[productName] || 0) - 1;  
       if (newCount <= 0) {  
@@ -95,12 +96,53 @@ const ProductList: React.FC = () => {
     setIsPopupOpen(false);
   };
 
+  // Filtros e Ordenação
+  const categories = ['All'];
+  const uniqueCategories = new Set(products.map(product => product.category));
+
+  uniqueCategories.forEach(category => {
+    categories.push(category);
+  });
+
+  const filteredProducts = products.filter(product =>
+    selectedCategory === 'All' || product.category === selectedCategory
+  );
+
+  const sortedProducts = filteredProducts.sort((a, b) =>
+    sortOrder === 'asc' ? a.price - b.price : b.price - a.price
+  );
+
   return (  
     <div className="mainContainer">  
+    <div className="filters">
+  <h3 className='filterTitle'>Filters:</h3>
+  <div className='filters-content'>
+   
+    <select onChange={(e) => setSelectedCategory(e.target.value)} defaultValue="Category">
+      <option value="Category" disabled>
+        Category
+      </option>
+      {categories.map((category) => (
+        <option key={category} value={category}>
+          {category}
+        </option>
+      ))}
+    </select>
+    
+    <select onChange={(e) => setSortOrder(e.target.value)} defaultValue="asc">
+      <option value="asc">Price: Low to High</option>
+      <option value="desc">Price: High to Low</option>
+    </select>
+  </div>
+</div>
+
       <h1 className="titleList">Desserts</h1>  
+      
+      
+
       <div className="container">  
         <ul className="listProducts">  
-          {products.map((product: Product) => (  
+          {sortedProducts.map((product: Product) => (  
             <li className="box-product" key={product.name}>  
               <div className="image-button-container">  
                 <img src={getImageUrl(product)} alt={product.name} className="product-image" />  
@@ -162,22 +204,33 @@ const ProductList: React.FC = () => {
           )}  
         </div>  
       </div>  
+
       {isPopupOpen && (  
         <div className="popup">  
           <div className="popup-content">  
             <div className="popup-header">  
-              <span className="check-icon">✔️</span>  
-              <h2>Order Summary</h2>  
+              <span className="check-icon"><img src='./assets/images/icon-order-confirmed.svg' alt="Order Confirmed"/></span>  
+              <h2>Order Confirmed</h2>  
+              <p className="popup-subtitle">We hope you enjoy your food!</p>  
             </div>  
-            <p className="popup-subtitle">We hope you enjoy your food!</p>  
-            <ul className="order-summary">  
-              {cart.map(item => (  
-                <li key={item.name}>  
-                  {item.name} - {item.quantity} x ${item.price.toFixed(2)}  
-                </li>  
-              ))}  
-            </ul>  
-            <p className="total">Total: ${calculateTotal().toFixed(2)}</p>  
+            <div className='order-summary-list'>  
+              <ul className="order-summary">  
+                {cart.map(item => {  
+                  const product = findProduct(item.name);  
+                  return (  
+                    <li key={item.name} className="order-item">  
+                      <img src={product?.image.thumbnail} alt={item.name} style={{ width: '50px', marginRight: '10px' }} />  
+                      <span>   
+                        {item.name}  
+                        <p className='quantityCartItemPopUp'> <span className='quantityCartItem'>{item.quantity}x </span> <span className='priceCartItem'>@   ${item.price.toFixed(2)}</span></p>  
+                      </span>   
+                      <span className="item-total"> ${(item.price * item.quantity).toFixed(2)} </span>  
+                    </li>   
+                  );  
+                })}  
+              </ul>  
+              <p className="total">Order Total: <span> ${calculateTotal().toFixed(2)}</span></p>  
+            </div>  
             <button className="start-order-button" onClick={startNewOrder}>Start New Order</button>  
           </div>  
         </div>  
