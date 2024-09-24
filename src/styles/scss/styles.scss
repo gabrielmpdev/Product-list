@@ -440,8 +440,18 @@ ul {
   justify-content: center;
   align-items: center;
 
+  &:hover{
+  background-color: $rose-50;
+  color:black;
+  border-color: transparent;
+ 
+  }
+
   img {
     vertical-align: middle;
+    &:hover{
+      filter: brightness(0);
+    }
   }
 }
 

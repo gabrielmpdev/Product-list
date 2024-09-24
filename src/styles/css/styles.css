@@ -411,8 +411,16 @@ ul {
   justify-content: center;
   align-items: center;
 }
+.quantity button:hover {
+  background-color: hsl(20, 50%, 98%);
+  color: black;
+  border-color: transparent;
+}
 .quantity button img {
   vertical-align: middle;
+}
+.quantity button img:hover {
+  filter: brightness(0);
 }
 
 .minicartProducts h2 {
